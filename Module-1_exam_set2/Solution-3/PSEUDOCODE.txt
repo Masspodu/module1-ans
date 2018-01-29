@@ -1,0 +1,43 @@
+BEGIN
+	DECLARE accountNumber AS INTEGER
+	DECLARE customerName AS STRING
+	DECLARE currentBalance AS INTEGER
+	DECLARE withdrawalAmount AS INTEGER
+	PROMPT "Enter your Account Number" AND STORE IN accountNumber
+	PROMPT "Enter Customer Name" AND STORE IN accountNumber
+	PROMPT "Current Balance" AND STORE IN currentBalance
+	PROMPT "Enter amount for withdrawal" AND STORE IN withdrawalAmount
+	
+	/* Exceptions */
+	
+	IF (accountNumber NOT FOUND OR  customerName NOT FOUND) THEN
+		PROMPT "Invalid data"
+	ELSE IF (currentBalance IS 0 OR currentBalance< 0 OR withdrawalAmount < 0 OR withdrawalAmount = 0) THEN
+		PROMPT "Entered Amount is Invalid"
+		
+	/* Valid Input */
+	
+	ELSE
+		transaction(currentBalance , withdrawalAmount)
+	END IF
+		
+END
+
+/************************************************************************
+* MODULE NAME 		: transaction()
+* INPUT PARAMETERS	: currentBalance , withdrawalAmount
+* AUTHOR 		: Praveen
+* CREATION DATE 	: 12-JAN-2018
+* DESCRIPTION 		: Checks whether the account is eligible for
+			  transaction or not.
+*************************************************************************/
+
+SUB transaction(currentBalance , withdrawalAmount)
+	IF(currentBalance > withdrawalAmount) THEN 
+		PROMPT "The customer is eligible for successful transaction "
+	ELSE
+		PROMPT "Not enough amount in the account for withdrawal"
+	END IF
+END SUB
+
+	

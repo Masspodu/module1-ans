@@ -1,0 +1,5 @@
+column salary format $99,999.00
+SELECT e.first_name,l.name,e.salary,sum(e.salary)
+FROM employees e, departments d, location l
+WHERE d.department_id = e.department_id
+AND d.location_id = l.id group by l.name;

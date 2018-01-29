@@ -1,0 +1,86 @@
+/*******************************************************************************************************
+ * File                	 	: ElectricityBill.txt
+ * Author Name          	: Capgemini
+ * Desc                	 	: Program to apply bill on electricity of given customer number
+ * Version            	 	: 1.0
+ * Last Modified Date   	: 18-May-2017
+ * Change Description   	: checking whether customer number and number of units is digits or not
+ *******************************************************************************************************/
+START
+	DECLARE customer_no as number(10)
+	DECLARE customer_name as varchar(10)
+	DECLARE no_of_units as real(10)
+	PROMPT "enter the costumer number" store in customer_no
+	If(isValid(customer_no)) THEN
+		PROMPT "enter number of units consumed"
+		If(isValid(no_of_units) THEN
+		     applyBill(no_of_units)
+		ELSE
+			PRINT " number of units must be in digits"
+		ENDIF
+	else
+	     PRINT "entered customer number invalid"
+	
+	ENDIF
+END
+
+/*********************************************************************
+* Module Name         	: applyBill()
+* Input Parameters    	: data
+* Return Type         	: REAL
+* Author              	: Capgemini
+* Creation Date      	: 18-May-2017
+* Description        	: Applying bill on the electricity
+ *********************************************************************/
+
+SUB applyBill(data)
+DECLARE result as real(10)
+result=no_of_units*getCalBill(no_of_units)
+print "electricity bill" +result
+EXCEPTION
+	when NoSuchElement THEN
+	PRINT errormessage
+ENDSUB
+/*********************************************************************
+* Module Name         	: getBillCharge()
+* Input Parameters    	: no_of_units
+* Return Type        	: INTEGER
+* Author              	: Capgemini
+* Creation Date       	: 18-May-2017
+* Description         	: Based on number of units fetching charges per units and if customerno exists, 
+			  else exception will be raised	
+*********************************************************************/
+
+
+SUB getBillCharge(no_of_units)
+DECLARE errormsg AS INTEGER AND store 0
+IF(elementFound(custmer_no))THEN
+	IF(no_of_units>100) then
+	return 02.96
+	else
+	return 05.56	
+	endif
+ELSE
+	RAISE "customer doesn’t exist with this number"+ customerno
+ENDIF
+ENDSUB
+/*********************************************************************
+* Module Name         	: isValid()
+* Input Parameters      : data
+* Return Type        	: BOOLEAN
+* Author             	: Capgemini
+* Creation Date       	: 17-May-2017
+* Description         	: To validate data for accepting only digits
+ *********************************************************************/
+
+
+SUB isValid(data)
+	IF(isDigits(data)) THEN
+		RETURN true
+	ELSE	
+		RETURN false
+	END IF
+END SUB
+
+
+	 

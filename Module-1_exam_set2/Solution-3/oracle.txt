@@ -1,0 +1,31 @@
+
+*1
+
+select count(*) from campus c join members m on c.campusID=m.campusID 
+join position p on m.positionid=p.positionid 
+where p.position='Associate Professor';
+------------------------------------------------------------------------
+*2
+
+select m.lastname,m.firstname,p.position from members m join position p 
+on m.positionid=p.positionid join campus c on m.campusid=c.campusid
+where c.campusname='Indiana University';
+------------------------------------------------------------------------
+*3
+select c.campusname from (
+   select count(m.memberID) as totalMembers from members m
+   join campus c on m.campusID=c.campusID
+   order by totalMembers desc)
+where rownum=1 order by totalMembers desc;
+------------------------------------------------------------------------
+*4
+
+select count(*) as Quantity from orders where orderdate='March 5, 2005';
+------------------------------------------------------------------------
+*5
+
+select o.memberID,m.firstname from members m join orders o
+on m.memberID=o.memberID join orderline ol on
+o.orderID=ol.orderID join fooditems f on
+ol.fooditemsid=f.fooditemID where f.fooditemname like '%Chips';
+------------------------------------------------------------------------

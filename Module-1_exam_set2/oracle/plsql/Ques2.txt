@@ -1,0 +1,66 @@
+CREATE OR REPLACE PROCEDURE Emp_Job(eid IN NUMBER,
+	startdate OUT DATE,enddate OUT DATE,
+	curjob OUT varchar2) IS
+BEGIN
+	SELECT start_date, end_date, job_id 
+	into startdate, enddate, curjob FROM
+	job_history WHERE employee_id=eid;
+	
+END Emp_Job;
+/
+
+
+output : 
+SQL> CREATE OR REPLACE PROCEDURE Emp_Job(eid IN NUMBER,
+  2     startdate OUT DATE,enddate OUT DATE,
+  3     curjob OUT varchar2) IS
+  4  BEGIN
+  5     SELECT start_date, end_date, job_id
+  6     into startdate, enddate, curjob FROM
+  7     job_history WHERE employee_id=eid;
+  8
+  9  END Emp_Job
+ 10  /
+
+Procedure created.
+
+SQL> execute Emp_Job(102,:s,:end,:job);
+
+PL/SQL procedure successfully completed.
+
+SQL> PRINT start;
+
+Start
+--------------------------------
+13-JAN-93
+
+SQL> PRINT end;
+
+END
+--------------------------------
+24-JUL-98
+
+SQL> PRINT job;
+
+JOB
+--------------------------------
+IT_PROG
+
+SQL> select * from job_history;
+
+EMPLOYEE_ID START_DAT END_DATE  JOB_ID     DEPARTMENT_ID
+----------- --------- --------- ---------- -------------
+        102 13-JAN-93 24-JUL-98 IT_PROG               60
+        101 21-SEP-89 27-OCT-93 AC_ACCOUNT           110
+        101 28-OCT-93 15-MAR-97 AC_MGR               110
+        201 17-FEB-96 19-DEC-99 MK_REP                20
+        114 24-MAR-98 31-DEC-99 ST_CLERK              50
+        122 01-JAN-99 31-DEC-99 ST_CLERK              50
+        200 17-SEP-87 17-JUN-93 AD_ASST               90
+        176 24-MAR-98 31-DEC-98 SA_REP                80
+        176 01-JAN-99 31-DEC-99 SA_MAN                80
+        200 01-JUL-94 31-DEC-98 AC_ACCOUNT            90
+
+10 rows selected.
+
+	

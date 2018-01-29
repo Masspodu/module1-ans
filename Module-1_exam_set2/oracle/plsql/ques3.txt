@@ -1,0 +1,43 @@
+DECLARE
+	emp_name VARCHAR2(20);
+	job VARCHAR2(20);
+
+BEGIN
+	SELECT e.first_name, j.job_id into emp_name,job 
+	FROM employees e JOIN job_history j 
+	ON e.employee_id=j.employee_id
+	WHERE (TO_CHAR(e.hire_date,'YYYY') IN (1990)
+	AND TO_CHAR(e.hire_date,'YYYY') IN (1991)) ;
+	DBMS_OUTPUT.PUT_LINE('EMPLOYEE NAME:'||
+			      emp_name ||' '|| 'JOB:'|| job);
+EXCEPTION
+	WHEN No_DATA_FOUND
+	THEN
+	DBMS_OUTPUT.PUT_LINE('No Data Found');
+END;
+/  
+
+
+Sol : SQL> set serveroutput on;
+SQL> DECLARE
+  2     emp_name VARCHAR2(20);
+  3     job VARCHAR2(20);
+  4
+  5  BEGIN
+  6     SELECT e.first_name, j.job_id into emp_name,job
+  7     FROM employees e JOIN job_history j
+  8     ON e.employee_id=j.employee_id
+  9     WHERE (TO_CHAR(e.hire_date,'YYYY') IN (1990)
+ 10     AND TO_CHAR(e.hire_date,'YYYY') IN (1991)) ;
+ 11     DBMS_OUTPUT.PUT_LINE('EMPLOYEE NAME:'||
+ 12                           emp_name ||' '|| 'JOB:'|| job);
+ 13  EXCEPTION
+ 14     WHEN No_DATA_FOUND
+ 15     THEN
+ 16     DBMS_OUTPUT.PUT_LINE('No Data Found');
+ 17  END;
+ 18  /
+Data Not Found For The Given
+
+PL/SQL procedure successfully completed.
+

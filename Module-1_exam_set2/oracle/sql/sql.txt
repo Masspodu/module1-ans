@@ -1,0 +1,103 @@
+1. Display the employees that have starting name with "J","K","L","M
+
+QUery:
+ 
+SQL> select first_name from employees
+  2  where first_name like 'J%' or first_name like 'K%'
+  3  or first_name  like 'L%' or first_name like 'M%';
+
+Output:
+
+FIRST_NAME
+--------------------
+Lex
+John
+Jose Manuel
+Luis
+Karen
+Matthew
+Kevin
+Julia
+James
+Laura
+Mozhe
+
+FIRST_NAME
+--------------------
+James
+Jason
+Michael
+Ki
+John
+Joshua
+John
+Karen
+Janette
+Lindsey
+Louise
+
+2.
+
+
+
+
+
+
+
+
+
+
+
+3. Display the lastnames,month of date of join and hire date of those
+ employees who have joined in  month jan, irrespective of the year of joining.
+
+Query:
+
+SQL> SELECT last_name,hire_date AS "date_of_join"
+  2  FROM employees s WHERE TO_NUMBER(TO_CHAR(s.hire_date, 'DD')) <= 30
+  3  and to_char(s.hire_date, 'MON')='JAN';
+
+Output:
+
+LAST_NAME                 date_of_j
+------------------------- ---------
+De Haan                   13-JAN-93
+Hunold                    03-JAN-90
+Landry                    14-JAN-99
+Davies                    29-JAN-97
+Partners                  05-JAN-97
+Zlotkey                   29-JAN-00
+Tucker                    30-JAN-97
+King                      30-JAN-96
+Marvins                   24-JAN-00
+Fox                       24-JAN-98
+Johnson                   04-JAN-00
+
+LAST_NAME                 date_of_j
+------------------------- ---------
+Taylor                    24-JAN-98
+Sarchand                  27-JAN-96
+Grant                     13-JAN-00
+
+14 rows selected.
+
+
+5. Display all employees whose managers earn salry greater than 2000.
+The query should display employeename,managername and manager salary.
+
+Query:
+
+SQL> SELECT e.first_name AS "MANAGER_NAME",e.salary AS "MANAGER_SALARY"
+  2  FROM employees e,departments d
+  3  WHERE (d.manager_id=e.manager_id) and (e.SALARY > 2000);
+
+Output:
+
+MANAGER_NAME         MANAGER_SALARY
+-------------------- --------------
+Neena                         17000
+Lex                           17000
+Bruce                          6000
+David                          4800
+
+44 rows selected.

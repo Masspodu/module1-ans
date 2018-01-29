@@ -1,0 +1,130 @@
+
+/*To run a shell script "backup.sh" in the background without no hangups*/
+
+ Answer:
+---------
+nohup sort backup.sh &
+===============================================================================
+/*To give execute permission for user,group and others for a file Test.sh*/
+
+ Answer:
+---------
+chmod u+x,g+x,o+x Test.sh
+===============================================================================
+/*To display the contents of the file friends in uppercase letters*/
+
+ Answer:
+---------
+tr "[a-z]" "[A-Z]" < friends
+===============================================================================
+/*To Print only file names in current working directory in alphabetical order*/
+
+ Answer:
+---------
+ls
+===============================================================================
+
+/*****************************SHELL SCRIPTING*****************************/
+
+/*To create a menu program for File operations using functions*/
+
+ Answer:
+---------
+createFile () {
+ echo "Enter the File Name:"
+ read file
+ if [ ! -f $file ] then
+  touch $file
+  echo "The file $file has been created successfully!"
+ else
+  echo "File $file already exists! Do you want to override the existing file?(Y/N)"
+  read ch
+  if [ $ch = "Y" -o $ch = "y" ] then
+   touch $file
+   echo "The file $file has been created successfully!"
+  elif [ $ch = "N" -o $ch = "n" ] then
+   echo "The file $file has not been created...";
+   else
+   echo "Invalid Choice...";
+  fi
+ fi
+}
+
+createDirectory () {
+ echo "Enter the directory name:"
+ read dir
+ if [ ! -d $dir ] then
+  mkdir $dir
+ else
+  echo "The given directory $dir already exists!"
+ fi
+}
+
+copyFile () {
+ echo "Enter the Source file name to be copied:"
+ read src
+ echo "Enter destination file name:"
+ read dest
+ if [ -f $dest ] then
+  echo "File exists at destination! Do you Want to override(Y/N)"
+  read ch
+  if [ $ch = "Y" -o $ch = "y" ] then
+   cp $src $dest
+   echo "File successfully copied from $src to $dest"
+  elif [ $ch = "N" -o $ch = "n" ] then
+   echo "The file $file has not been copied...";
+  else
+   echo "Invalid Choice...";
+  fi
+ else
+  cp $src $dest
+  echo "File successfully copied from $src to $dest"
+ fi
+}
+
+moveFile () {
+ echo "Enter the source file name to move:"
+ read src
+ echo "Enter the destination file name:"
+ read dest
+ if [ -f $src ] then
+  if [ -f $dest ] then
+   echo "File exists at destination! Do you want to override(Y/N)"
+   read ch
+   if [ $ch = "Y" -o $ch = "y" ] then
+    mv $src $dest
+    echo "File successfully moved from $src to $dest !"
+   elif [ $ch = "N" -o $ch = "n" ] then
+    echo "The file $file has not been moved..."
+   else
+    echo "Invalid choice..."
+   fi
+  else
+   mv $src $dest
+   echo "File successfully moved from $src to $dest !"
+  fi
+ else
+  echo "Source file i.e., $src does not exists..."
+ fi
+}
+echo "Menu"
+echo "Press 1 to create a file"
+echo "Press 2 to create a directory"
+echo "Press 3 to copy a file"
+echo "Press 4 to move a file"
+echo "Press * to Exit"
+echo "Enter an option to execute"
+read option
+case $option in
+1)createFile
+;;
+2)createDirectory
+;;
+3)copyFile
+;;
+4)moveFile
+;;
+*)exit
+;;
+esac
+============================================================================

@@ -1,0 +1,82 @@
+/*Q.2. Procedure*/
+
+create or replace procedure food_proc(v_mem_id in members.memberID%type)
+as
+cursor c is
+select f.fooditemname FoodItem from fooditems f join orderline ol
+on f.fooditemID=ol.foodItemsID join orders o on
+ol.orderID=o.orderID join members m on
+o.memberID=m.memberID where m.memberID=v_mem_id;
+begin
+	dbms_output.put_line('Food Items ordered by Member ID '||v_mem_id);
+	dbms_output.put_line('==================================');
+	for r in c
+	loop
+		dbms_output.put_line(r.FoodItem);
+	end loop;
+exception
+when no_data_found then
+	dbms_output.put_line('Data not found in the database.');
+when too_many_rows then
+	dbms_output.put_line('More than one row.');
+when others then
+	dbms_output.put_line('Other Errors.');
+end;
+/
+
+==================================================================================
+/*Q.3. Function*/
+
+create or replace function food_func
+(v_pos in POSITION.position%type)
+return number
+as
+v_tot_quantity number;
+begin
+   select count(*) into v_tot_quantity from fooditems f
+   join orderline ol on f.fooditemID=ol.fooditemsID
+   join orders o on ol.orderID=o.orderID join
+   members m on o.memberID=m.memberID join position p
+   on m.positionID=p.positionID where p.position = v_pos;
+   return(v_tot_quantity);
+exception
+when no_data_found then
+	dbms_output.put_line('Data not found in the database.');
+when too_many_rows then
+	dbms_output.put_line('More than one row.');
+when others then
+	dbms_output.put_line('Other Errors.');	
+end;
+/
+
+/* To Execute */
+
+declare
+v_result number;
+begin
+v_result:=food_func('Lecturer');
+dbms_output.put_line(v_result);
+end;
+/
+==================================================================================
+/*Q.5 PL/SQL block to calculate total campus discount*/
+
+declare
+v_tot_discount campus.campusDiscount%type;
+begin
+   select sum(campusDiscount) into v_tot_discount from campus;
+   dbms_output.put_line('Total Campus Discount: '||v_tot_discount);
+   if(v_tot_discount < 1) then
+           update campus set campusDiscount=campusDiscount+(campusDiscount*0.02);
+   else
+           dbms_output.put_line('No updation on campus Discount');
+   end if;
+exception
+when no_data_found then
+   dbms_output.put_line('Data not found in the database.');
+when too_many_rows then
+   dbms_output.put_line('More than one row.');
+when others then
+   dbms_output.put_line('Other Errors.');
+end;
+==================================================================================

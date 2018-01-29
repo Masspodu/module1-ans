@@ -1,0 +1,175 @@
+1. To diplay 6th line from file emp.dat.
+
+command: tail -n+6 employee.dat
+
+Output:
+	[blr10@NDAUnix ~]$ tail -n+6 employee.dat
+	Richard 23232   ACS     Pune
+2.To list all directories in the current directory for which others have execute
+permission
+ command:  [blr10@NDAUnix ~]$ ls -l | grep "d" | cut -f1 -d" " | grep "$x"
+drwxrwxr-x
+-rwxrwxr-x
+drwxrwxr-x
+-rw-rw-r--
+drwxrwxr-x
+drwxrwxr-x
+-rw-rw-r--
+-rw-rw-r--
+drwxrwxr-x
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+drwxr-xr-x
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+-rw-rw-r--
+drwxrwxr-x
+drwxrwxr-x
+drwxrwxr-x
+3.To display today's date in '10-29-2011' form
+command:
+ [blr10@NDAUnix ~]$ date '+%m-%d-%y'
+Output:
+ 05-18-17
+
+
+
+**********************shell script*************************
+fn1(){
+echo " enter the file to be copied"
+read cp
+if [ -f "$cp" ]
+        then
+        cp $cp copyfile
+        echo " file successfully copied"
+else
+        echo "no file exists to copy"
+fi
+}
+fn2(){
+echo " enter the file to be move"
+read mv
+if [ -f "$mv" ]
+then
+        mv $mv movedfile
+        echo "moved successfully"
+else
+        echo " no file to be move"
+fi
+}
+fn3(){
+echo " enter the file to be delete"
+read del
+if [ -f "$del" ]
+then
+        rm $del
+        echo " deleted successfully "
+else
+        echo " entered file name doesnot exists "
+fi
+}
+
+echo "menu"
+echo "1.copying a file"
+echo "2.Moving a file"
+echo "3.Delete a file"
+echo "********************"
+echo -n "enter your choice"
+read c
+case $c in
+1)fn1;;
+2)fn2;;
+3)fn3;;
+esac
+
+
+Output:
+	[blr10@NDAUnix ~]$ sh file_handling
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice1
+ enter the file to be copied
+names
+no file exists to copy
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice1
+ enter the file to be copied
+oddeven
+ file successfully copied
+[blr10@NDAUnix ~]$ cat copyfile
+echo -n " enter the number"
+read n
+if [ `expr $n % 2` -eq 0 ]
+then
+echo " entered number is even"
+else
+echo " entered number is odd"
+fi
+[blr10@NDAUnix ~]$ sh file_handling
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice2
+ enter the file to be move
+copyfile
+moved successfully
+[blr10@NDAUnix ~]$ cat movedfile
+echo -n " enter the number"
+read n
+if [ `expr $n % 2` -eq 0 ]
+then
+echo " entered number is even"
+else
+echo " entered number is odd"
+fi
+[blr10@NDAUnix ~]$ sh file_handling
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice2
+ enter the file to be move
+d
+ no file to be move
+[blr10@NDAUnix ~]$ sh file_handling
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice3
+ enter the file to be delete
+copyfile
+ entered file name doesnot exists
+[blr10@NDAUnix ~]$ sh file_handling
+menu
+1.copying a file
+2.Moving a file
+3.Delete a file
+********************
+enter your choice3
+ enter the file to be delete
+movedfile
+ deleted successfully
+
+
