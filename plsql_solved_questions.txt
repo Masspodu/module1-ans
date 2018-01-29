@@ -1,0 +1,395 @@
+1)	Create procedure to increase salary of employees in department 30. The salary increase is 30% for the employees earning less than 3000 and 10% for more than 3000.
+create or replace procedure inc_sal as 
+staffsal staff_masters.staff_sal%type;
+cursor c is
+select * from staff_masters where dept_code=30;
+begin
+for r in c
+loop
+if(r.staff_sal<30000) then 
+update staff_masters set staff_sal=staff_sal+(staff_sal*0.3) where dept_code=30;
+elsif(r.staff_sal>=30000) then
+update staff_masters set staff_sal=staff_sal+(staff_sal*0.1) where dept_code=30;
+end if;
+end loop;
+end;
+/
+
+create or replace procedure inc_sal as 
+staffsal staff_masters.staff_sal%type;
+cursor c is
+select * from staff_masters where dept_code=30;
+begin
+for r in c
+loop
+if(r.staff_sal<30000) then 
+update staff_masters set staff_sal=staff_sal+(staff_sal*0.3);
+elsif(r.staff_sal>=30000) then
+update staff_masters set staff_sal=staff_sal+(staff_sal*0.1);
+end if;
+end loop;
+end;
+/
+*****************************************************************************************************************
+
+
+2)write a function to accept empno & update salary . update salary  as salary + commission only if the employee is a sales representative else salary should not be updated. If comm=0 or null update commission by 5% of salaryand then update salary. Returned the calculated value.
+ create or replace function update_sal(empid number) return number is
+total number(9,2);
+cursor c is select * from emp where lower(job)='salesman' and empno=empid;
+begin
+for r in c
+loop
+if(r.comm is null) then
+r.comm:=r.sal*0.5;
+end if;
+total:=r.sal+r.comm;
+update emp set sal=total;
+end loop;
+return total;
+end ;
+******to execute*******
+declare
+total number(9,2);
+begin
+total:=update_sal(7499);
+dbms_output.put_line('total='||total);
+end;
+/
+******************************************************************************************************************
+
+3)write anonymous single PLSQL block to perform the following task:
+*Update the job of an employee by accepting job along with employeenumber from user.
+*if the employee does not exist in the database, then add the employee’s recoed in the table for instance, 
+if employee empid 1000 is not there in the database table, then add an entirely new record in the table using the same PLSQL block.
+
+
+declare
+eno number:=&eno;
+v_empno number;
+begin
+select empno into v_empno from emp where empno=eno for update;
+	update emp set job='&job' where empno=eno;
+exception
+when NO_DATA_FOUND then
+	insert into emp values(&eno,'&ename','&job','&mgr','&hiredate','&sal','&comm','&deptno');
+end;
+
+/
+***************************************************************************************************************
+4)
+
+Q2)
+
+Create a procedure to display the availability of book by accepting book information.User can give book id to search the book. If book is available, then display book 
+name and its category. If book is not available, then display appropriate message to the user.
+
+create or replace procedure avail(code in number)
+as 
+--PL/SQL variables are declared.
+v_book_code number(20);
+v_book_name varchar2(20);
+v_book_year number(20);
+v_book_author varchar2(20);
+
+Begin
+--Copying the values of table into pl/sql variables.
+Select book_code into v_book_code from book_master where book_code=code;
+Select book_name,book_pub_year,book_pub_author into v_book_name,v_book_year,v_book_author 
+from book_master
+where book_code=code;
+dbms_output.put_line('Book code is '||v_book_code||' Book name is '||v_book_name||' Book publishes year is '||v_book_year||' Author is '||v_book_author);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+dbms_output.put_line('The entered book code is invalid');
+end;
+
+**********************************************************************************************************************************************************************
+5)
+Create a function that will calculate the total salary of all employees .
+ If the sum of salary is less than 50,000 then add 3000 to all the employees salary and then return the new sum of salary.
+
+Create or replace function salary
+return number is
+t_salary number;
+staff_sal1 number;
+temp_sal number;
+Cursor v_salary is
+Select staff_sal from staff_master;
+
+Begin
+staff_sal1:=0;
+Select sum(staff_sal) into temp_sal from staff_master;
+if temp_sal<50000 then
+for v_cur in v_salary
+loop
+v_cur.staff_sal:=v_cur.staff_sal + 3000;
+staff_sal1:=staff_sal1+v_cur.staff_sal;
+end loop;
+t_salary:=staff_sal1;
+return t_salary;
+else
+t_salary:=temp_sal;
+return t_salary;
+end if;
+end;
+ 
+Execution:
+
+Declare 
+total_salary number;
+Begin
+total_salary:=salary();
+dbms_output.put_line('The total salary is '||total_salary);
+end;
+
+
+***********************************************************************************************************************************************************************
+
+6)
+write anonymous single PLSQL block to perform the following task:
+*Update the job of an employee by accepting job along with employeenumber from user.
+*if the employee does not exist in the database, then add the employee’s recoed in the table for instance, if employee empid 1000 is not there in the database table, then add an entirely new record in the table using the same PLSQL block.
+
+
+declare
+job1 varchar(9);
+eno number;
+v_empno number;
+flag number; 
+
+begin
+flag:=0;
+eno:=&eno;
+Select empno into v_empno from emp where empno=eno for update;
+
+dbms_output.put_line('vivek');
+flag:=1;
+dbms_output.put_line(flag);
+if flag=1 then
+update emp set job='&job1' where empno=eno;
+dbms_output.put_line(flag);
+
+end if;
+Exception
+when no_data_found then
+insert into emp values(&eno,'&ename','&job',&mgr,'&hiredate',&sal,&comm,&dept_code);
+dbms_output.put_line(flag);
+
+end;
+
+******************************************************************************************
+7)-
+Write a function to accept userid and return the total price of all the books he has been issued. If he has not been issued any books then display appropriate message and insert the userid
+and comment in the log table called "noissued". If user has benn issued the books then enter his/her userid and comment in the log table called "issued".
+
+--Since the cost of book column is not mentioned,so we are considering the book_pub_year as the cost itself.
+
+Create table log_table(stu_code number(15),Status varchar2(50));
+___________________________________________________________________________________________________________________-
+
+Create or replace procedure total(code in number,cost out number)
+as
+v_student_code book_transactions.student_code%type;
+
+cursor tot is
+select book_pub_year from book_transactions a,book_masters b
+ where a.book_code=b.book_code and student_code=code;
+
+Begin
+
+Select distinct student_code into v_student_code from book_transactions where student_code=code;
+cost:=0;
+for total1 in tot
+loop
+cost:=cost+total1.book_pub_year;
+end loop;
+Insert into log_table values(v_student_code,'Issued');
+Exception
+When NO_DATA_FOUND then 
+Insert into log_table values(code,'Noissued'); 
+When others then 
+dbms_output.put_line('Invalid code entry');
+end;
+
+
+Execution:
+Declare
+totalcost number;
+begin
+total(1000,totalcost);
+dbms_output.put_line(totalcost);
+end; 
+*************************************************************************************************
+8)
+
+Write an anonymous single pl/sql block to perform the below given functionality. Accept publisher id as an input and display all the user names who has been issued the book published 
+by the given publisher id. For instance:if user inputs 'P4',then display all the users name who has been issued with the book published by the publisher, p4. If there is no single ser then 
+display appropriate message.
+--Since publisher id is not present in table,so we have used book_code instead.
+
+declare
+  v_scode number
+  v_bname varchar2(40);
+  v_sname varchar2(40);
+begin
+   select a.book_code,a.book_name,c.student_name into v_scode,v_bname,v_sname
+   from book_masters a join book_transactions b on a.book_code=b.book_code
+   join student_masters c on b.student_code=c.student_code
+   where a.book_code=&Bookcode;
+   dbms_output.put_line('Book code:'||v_scode||' Book name: '||v_bname||' Student name: '||v_sname);
+exception
+    when no_data_found then
+    dbms_output.put_line('This book code does not exist');
+end;
+
+
+****************************************************************************************************
+9)
+/* 
+create a procedure to increase price of books which belong to catagory c2.
+The price increase is 10% for books whose price <= 2000 and 20% for >2000.
+*/
+
+
+ CREATE OR REPLACE PROCEDURE INCR_SAL(V_EMPNO NUMBER)
+AS
+V_SAL EMP.SAL%TYPE;
+V_INCR NUMBER;
+BEGIN
+	SELECT SAL INTO V_SAL FROM EMP WHERE EMPNO = V_EMPNO;
+	CASE WHEN V_SAL > 1500 THEN
+	V_INCR := V_SAL * 1.10;
+	WHEN V_SAL <1500 THEN
+	V_INCR := V_SAL * 1.20;
+	END CASE;
+	UPDATE EMP SET SAL = V_INCR WHERE EMPNO = V_EMPNO;
+END;
+/
+	
+
+
+*******************************************************************************
+10)
+ /*WRITE A FUNCTION THAT ACCEPT BOOKID & UPDATE ITS PRICE. UPDATE THE PRICE ONLY IF EDITION IS 
+  GREATER THAN 3, ELSE PRICE MUST BE NOT BE UPDATED. ALSO IF THE EDITION IS GREATER THAN 3, THEN
+  INCREASE THE PRICE BY 3%. RETURN THE CALCULATED VALUE */
+  
+  CREATE OR REPLACE FUNCTION UPD_PRIC(V_EMPNO NUMBER)
+  AS
+  V_SAL EMP.SAL%TYPE;
+  V_JOB EMP.JOB%TYPE;
+  V_ENAME EMP.ENAME%TYPE;
+  V_INCR NUMBER;
+  BEGIN
+  SELECT SAL,JOB,ENAME INTO V_SAL, V_JOB, V_ENAME FROM EMP WHERE EMPNO = V_EMPNO;
+  IF V_JOB = 'SALESMAN' THEN
+	V_INCR := V_SAL * 0.03;
+  ELSE
+	V_INCR := 0;
+  END IF;
+  UPDATE EMP SET SAL =V_SAL + V_INCR WHERE EMPNO = V_EMPNO;
+  END;
+  /
+  
+ ---EXECUTION
+ /*
+ DECLARE
+ V_EMPNO EMP.EMPNO%TYPE;
+ BEGIN
+ V_EMPNO := UPD_PRIC(7499);
+ END;
+ /
+ */
+
+***********************************************************************************************************
+11)
+Ques: Write a procedure that accepts employee number as parameter from the usser and displays the job history of the employee,start_date and end_date of each job 
+and also display the current job the employee is working at.(refer to staff_masters table).
+
+
+create or replace procedure job(dno number) is
+	v_sal staff_master.staff_sal%type;
+	v_staffname staff_master.staff_name%type;
+	cursor curs(dno number) is select staff_name,staff_sal into v_staffname,v_sal from staff_master where staff_code=dno;
+	begin
+	if not curs%isopen then 
+		open curs(dno);
+	end if;
+	loop
+		fetch curs into v_staffname,v_sal;
+		exit when curs%notfound;
+		DBMS_OUTPUT.PUT_LINE('STAFF SALARY IS ' || v_sal);
+		DBMS_OUTPUT.PUT_LINE('STAFF NAME IS ' || v_staffname);	
+	end loop;
+	close curs;
+end;
+/
+***********************************
+declare 
+	cursor curs is select staff_name,hiredate,design_name
+from staff_master,designation_master
+where staff_master.design_code=designation_master.design_code 
+and hiredate between '01-Jan-2001' and '30-Jun-2001'
+and staff_master.design_code IN
+(select design_code
+from staff_master
+where hiredate between '01-Jan-2001' and '30-Jun-2001'
+INTERSECT
+select design_code
+from staff_master
+where hiredate between '01-Jan-2002' and '30-Jun-2002')
+union
+select staff_name,hiredate,design_name
+from staff_master,designation_master
+where staff_master.design_code=designation_master.design_code 
+and hiredate between '01-Jan-2002' and '30-Jun-2002'
+and staff_master.design_code IN
+(select design_code
+from staff_master
+where hiredate between '01-Jan-2001' and '30-Jun-2001'
+INTERSECT
+select design_code
+from staff_master
+where hiredate between '01-Jan-2002' and '30-Jun-2002');
+
+	begin	      
+		for c in curs
+		loop
+		dbms_output.put_line(c.staff_name||' '||c.design_name);
+		end loop;
+	end;
+	/
+
+**************************************************************************************************************
+12)
+
+QUES: Write a procedure that accepts member_id as parameter and display the food item names he has ordered.
+												  
+Neccessary validationns and exception handling should be taken care.
+
+
+ CREATE OR REPLACE PROCEDURE FOOD(IN_MEMBERID IN VARCHAR2)
+
+   AS
+  cursor V_CUR IS
+  
+    SELECT FOODITEM_NAME
+    FROM FOODITEMS FI,ORDERS FO,ORDERLINE O
+    WHERE FI.FOODITEM_ID=O.FOODITEM_ID
+    AND FO.ORDER_ID=O.ORDER_ID
+    AND MEMBER_ID=IN_MEMBERID;
+	V_ID VARCHAR2(5);
+	BEGIN
+	SELECT MEMBER_ID INTO V_ID FROM ORDERS
+	WHERE MEMBER_ID=IN_MEMBERID;
+	FOR R IN V_CUR
+	LOOP
+	EXIT WHEN V_CUR%NOTFOUND;
+	DBMS_OUTPUT.PUT_LINE('FOODITEM_NAME:' ||R.FOODITEM_NAME);
+	END LOOP;
+   EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+   DBMS_OUTPUT.PUT_LINE('MEMBER ID NOT FOUND');
+   END;
+   /

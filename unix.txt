@@ -1,0 +1,315 @@
+Q1. give commands of following
+
+1. to run back.sh in background
+>>   nohup sort backup.sh & (withuout hangup)
+>>   sort -o backup.sh &
+
+2. give execute permission for UGO for a file test.sh
+>> chmod a+x test.sh
+
+3. display contents of file friends in uppcaseletters
+>> tr "[a-z]" "[A-Z]" < friends
+
+4. prints only names of files in current working directory in alphbetical order.
+>> ls 
+
+Q2. write shell script.
+
+1. lab 9.. question 11.(assign)
+
+>>
+create_file(){
+ echo "Enter file name"
+ read file
+ if [ ! -f $file ]; then
+  touch $file
+  echo "Successfully created file $file"
+ else
+  echo "File already exists! Do you want to override the file?(Y/N)"
+  read ans
+  if [ $ans = "Y" -o $ans = "y" ]; then
+   touch $file
+   echo "Successfully created file $file"
+  else
+   echo "Not creating file $file...";
+  fi
+ fi
+}
+
+create_dir(){
+ echo "Enter directory name"
+ read dir
+ if [ ! -d $dir ]; then
+  mkdir $dir
+ else
+  echo "Directory already exists!"
+ fi
+}
+
+cp_file(){
+ echo "Enter source file name"
+ read source
+ echo "Enter destination file name"
+ read des
+ if [ -f $des ]; then
+  echo "Files exists at destination! Want to override(Y/N)"
+  read ans
+  if [ $ans = "Y" -o $ans = "y" ]; then
+   cp $source $des
+   echo "Successfully copied $source to $des"
+  else
+   echo "Not copying file...";
+  fi
+ else
+  cp $source $des
+  echo "Successfully copied $source to $des"
+ fi
+}
+
+mv_file(){
+ echo "Enter source file name"
+ read source
+ echo "Enter destination file name"
+ read des
+ if [ -f $source ]; then
+  if [ -f $des ]; then
+   echo "Files exists at destination! Want to override(Y/N)"
+   read ans
+   if [ $ans = "Y" -o $ans = "y" ]; then
+    mv $source $des
+    echo "Successfully moved $source to $des"
+   else
+    echo "Not moving file...";
+   fi
+  else
+   mv $source $des
+   echo "Successfully moved $source to $des"
+  fi
+ else
+  echo "Source file does not exists"
+ fi
+}
+echo "Menu"
+echo "1. Create a file"
+echo "2. Create a directory"
+echo "3. Copy file"
+echo "4. Move file"
+echo "5. Exit"
+echo " enter your choice"
+read choice
+case $choice in
+1)create_file;;
+2)create_dir;;
+3)cp_file;;
+4)mv_file;;
+5)exit;;
+esac
+
+*****************************************************************************************************
+Q1 GIVE COMMANS TO THE FOLLOWING
+
+1. TU RUM MERGE.SH AT THE BACKGROUND.
+>>   sort -o backup.sh &
+>>    nohup sort backup.sh & (withuout hangup)
+
+2. to find out lines which contains '^M' characters at the end of every line of the file called sample.txt. 
+>>. grep '^M$' sample.txt
+(use ctrl v+m for ^M)
+
+3. to sort a pipe delimted file as per its third coloumn
+>> sort -k3 filename
+
+
+Q2. write a program to accept filename from the user and check whether the file exits,
+is readable and has non zero size. if the filwe is available show the
+following details :
+
+file created by
+date and time of creation
+size of the file
+
+do all the validations and produce the output of each validation.
+
+
+>>echo "enter a filename :"
+read file
+if [ -f $file ] && [ -r $file ] && [ -s $file ]; then
+echo " details :"
+echo " file created by : `ls -l $file | awk '{print $3}`"
+echo " date and time : `ls -l $file |awk '{print $5}`"
+echo " size of file : `ls -l $file | awk '{print $5}`"
+else
+echo "file not found"
+fi
+
+
+
+
+
+********************************************************************************************************
+Q1. give commands fo the follwing.
+
+1. to display 6th line from emp.txt
+>> cat emp |  head -6 | tail -1
+
+2. to list all directories in curent directory for which others have execute permisiion.
+>>  ls -l | awk '{print $1}'|grep -o '.........x'
+
+3. todays date in '10-29-2011' form.
+>> date +"%m-%d-%y"
+
+Q2. write an intercative file handling program. user must be allowed to copy,move and delete files.
+
+>>
+echo "Menu "
+        echo "1. Copy a File "
+        echo "2. Move a file "
+        echo "3. Delete a file"
+        echo "4. Quit"
+        echo "Enter ur Choice \c"
+        read Choice
+        case"$Choice"in
+           1) echo "Enter File name to copy \c"
+              read f1
+              echo "Enter FIle name \c "
+          read f2         
+          if [ -f $f1 ]
+          then
+                  cp $f1 $f2
+              else
+                     echo "$f1 does not exist"
+              fi
+              ;;
+           2)
+            echo "Enter File name to move \c"
+            read f1
+            echo "Enter destination \c "
+            read f2
+            if [ -f $f1 ]
+             then 
+                 if [ -d $f2 ]
+                 then
+                      mv $f1 $f2
+                 fi
+             else
+                 echo "$f1 does not exist"
+            fi
+            ;;
+          3) echo "Enter the File to be delete "
+             read r1
+             if [ -f $r1 ]
+             then      
+                   rm -i $r1
+             else 
+                  echo "$r1 file does not exist "
+             fi
+             ;;
+         
+         4) 
+             echo "Exit......."
+             exit;;
+        esac
+
+
+**************************************************************************************************
+
+Q1. give commands of the following.
+
+1. consider below givn content of the file,emp.txt.. write command to sort according to employess salary and display their name.
+>> sort -k4 -k1 emp.txt
+
+2. write a command to display last but second line from a file
+>> cat emp |tail -2 | head -1
+
+3. dispaly all employess detalis except who are not directors.
+>> cat emp | grep -v "director"
+
+Q2. shell script.of telephone directory..
+
+>> echo "3 search"
+echo "choose an option"
+read n
+case "$n" in
+1)
+cat telephone_directory
+;;
+2)
+cat >> telephone_directory
+;;
+3)
+echo "enter the name"
+read name
+if grep "$name" telephone_directory;
+then
+grep "$name" telephone_directory
+else
+echo "record not found"
+fi
+;;
+esac 
+
+
+
+*********************************************************************************************************888
+Q1. give commands of the following
+
+1. to display country name and total number of players belonign to respective country
+>> cricdb.txt | cut -d "|" -f2,6
+>> find . -name "cricket" | grep -n "india" | wc -l
+
+2. display all lines from file except first line.
+>> awk 'NR>1' cricdb
+
+3. display names who are born between the years 1980 and 1989.dispaly the names in sorted order with repect to DOB field.
+>> cat cricdb | cut -d"|" –f2,6  | egrep "^[198]{3}[0-9]{1}" | wc –l
+
+Q2.. shell script
+
+>>  echo "Menu "
+        echo "1. Copy a File "
+        echo "2. Move a file "
+        echo "3. Delete a file"
+        echo "4. Quit"
+        echo "Enter ur Choice \c"
+        read Choice
+        case"$Choice"in
+           1) echo "Enter File name to copy \c"
+              read f1
+              echo "Enter FIle name \c "
+          read f2         
+          if [ -f $f1 ]
+          then
+                  cp $f1 $f2
+              else
+                     echo "$f1 does not exist"
+              fi
+              ;;
+           2)
+            echo "Enter File name to move \c"
+            read f1
+            echo "Enter destination \c "
+            read f2
+            if [ -f $f1 ]
+             then 
+                 if [ -d $f2 ]
+                 then
+                      mv $f1 $f2
+                 fi
+             else
+                 echo "$f1 does not exist"
+            fi
+            ;;
+          3) echo "Enter the File to be delete "
+             read r1
+             if [ -f $r1 ]
+             then      
+                   rm -i $r1
+             else 
+                  echo "$r1 file does not exist "
+             fi
+             ;;
+         
+         4) 
+             echo "Exit......."
+             exit;;
+        esac

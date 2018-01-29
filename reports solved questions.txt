@@ -1,0 +1,55 @@
+8.2 last table
+
+
+spool d:\newfile.txt
+clear columns
+clear breaks
+clear computes
+ttitle off
+
+
+column deptno heading 'dept|no'
+column empno heading 'emp|no'
+column ename heading 'e|name'
+column job heading 'job|name'
+column avg(sal) format $99,999.00
+column count(deptno) heading 'no of|employees'
+
+break on deptno skip 1 on report
+
+compute sum label 'TOTAL' of avg(sal) on report
+
+
+select distinct(deptno),job,count(deptno),avg(sal)
+from emp
+group by deptno,job
+order by deptno;
+
+spool off
+
+8.2 ka pehla table
+
+spool d:\newfile.txt
+clear columns
+clear breaks
+clear computes
+ttitle off
+btitle off
+
+column deptno heading 'dept_id'
+column job heading 'job_id'
+column sal heading 'salary'
+
+break on deptno skip 1 on report
+compute sum of sal on report
+compute avg label 'avg:' of sal on deptno
+
+select deptno,job,ename,sal
+from emp
+order by deptno;
+
+spool off
+
+
+
+ 

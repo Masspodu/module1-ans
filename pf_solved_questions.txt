@@ -1,0 +1,386 @@
+1. Pseudo code for finding the state of the employee using his current location ?
+BEGIN
+DECLARE emp_no AS INTEGER
+DECLARE salary AS INTEGER
+DECLARE emp_name AS CHARACTER
+DECLARE location AS CHARACTER
+PROMPT “Enter the employee no:” AND STORE IN emp_no
+PROMPT “Enter the employee name:” AND STORE IN emp_name
+PROMPT “Enter the employee salary:” AND STORE IN salary
+PROMPT “Enter the current location:” AND STORE IN location
+state(location as string)
+END
+SUB state(location)
+If(location=’Chennai’) THEN
+PROMPT “The state of employee is: TamilNadu” 
+ELSE IF(location=’Mumbai’ || ‘Pune’) THEN
+PROMPT “The state of employee is: Maharashtra”
+ELSE IF(location=’Bangalore’) THEN
+PROMPT “The state of employee is: Karnataka” 
+ELSE
+PROMPT “Enter a valid location of the employee” //EXCEPTION
+END IF
+END SUB
+
+
+2.Pseudo code for amount withdrawal in ATM ?
+
+BEGIN
+DECLARE account_no AS INTEGER
+DECLARE current_balance AS INTEGER
+DECLARE customer_name AS CHARACTER
+DECLARE withdrawal_amount AS INTEGER
+PROMPT “Enter the account number:” AND STORE IN account_no
+PROMPT “Enter the customer name:” AND STORE IN customer_name
+PROMPT “Enter the current balance:” AND STORE IN current_balance
+PROMPT “Enter the withdrawal amount:” AND STORE IN withdrawal_amount
+IF(current_balance > withdrawal_amount) THEN
+PROMPT “Current balance should be greater than the withdrawal amount”
+ELSE IF(current_balance<withdrawal_amount) THEN
+PROMPT “Not enough amount in the account for withdrawal” 
+		ELSE
+			PROMPT “Enter the valid amount” //EXCEPTION
+END IF
+END
+
+
+3.Pseudocode to display electricity consumer information ?
+BEGIN
+DECLARE customer_number AS INTEGER
+DECLARE consumer_name AS STRING
+DECLARE number_of_units,total_charge AS FLOAT
+PROMPT "Customer number :			" AND STORE IN customer_number
+PROMPT "Customer  Name :			" AND STORE IN customer_name
+PROMPT "Number of units :			" AND STORE IN number_of_units
+electric_charges(number_of_units AS FLOAT)
+			PRINT "Customer Number      	: "+customer_number
+			PRINT "Customer Name    		: "+customer_name
+			PRINT "Number Of Units		: "+number_of_units
+			PRINT "Total Electricity Charges	: "+total_charge
+END
+SUB electric_charges(number_of_units)
+				IF ( number_of_units >0 AND number_of_units<100)
+					CALCULATE total_charge  = number_of_units *02.96
+					Print “Total electricity charges : ”+total_charge
+ELSE IF (number_of_units>100)
+CALCULATE total_charge   =number_of_units*05.56
+Print “Total electricity charges : ”+total_charge
+				ELSE
+Print “Enter the correct value for Number of units “
+END IF
+			END SUB	
+
+
+4. Pseudocode to calculate Bill to the customers ?
+BEGIN
+DECLARE  cost_of_vehicle,cost_of_service  AS INTEGER
+		DECLARE type_of_vehicle,type_of_service AS STRING
+		DECLARE cost_of_service  AS FLOAT
+PROMPT "Type of Service :	" AND STORE IN type_of_service
+		PROMPT "Type of Vehicle :	" AND STORE IN type_of_vehicle
+		PROMPT "Cost of Vehicle  :	" AND STORE IN cost_of_vehicle
+cost_of_service(type_of_vehicle as STRING, cost_of_vehicle as INTEGER, type_of_service as STRING)
+PRINT "Type of  Service :	" +type_of_service
+		PRINT "Type of  Vehicle :	" +type_of_vehicle
+		PRINT "Cost of  Vehicle  :	" +cost_of_vehicle
+		PRINT “Cost of  Service :	“ +cost_of_service
+END
+SUB cost_of_service(type_of_vehicle, cost_of_vehicle, type_of_service)
+			IF (type_of_vehicle=’All’ AND type_of_service=’F’)  //* F means Free Service *//
+				cost_of_service  = 200
+				Print “Cost of service : ”+cost_of_service
+			ELSE IF (type_of_vehicle=’Hatchback’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+				CALCULATE cost_of_service  = cost_of_vehicle - (0.15*cost_of_vehicle)
+				Print “Cost of service : ”+cost_of_service
+			ELSE IF (type_of_vehicle=’Small Cars’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+				CALCULATE cost_of_service  = cost_of_vehicle - (0.10*cost_of_vehicle)
+				Print “Cost of service : ”+cost_of_service
+			ELSE IF (type_of_vehicle=’Sedan’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+				CALCULATE cost_of_service  = cost_of_vehicle - (0.18*cost_of_vehicle)
+				Print “Cost of service : ”+cost_of_service
+			ELSE
+				Print “ Enter the correct details “
+			END IF
+		END SUB
+
+
+
+5. Pseudocode for well ordered number
+BEGIN
+DECLARE number AS INTEGER
+DECLARE temp1,temp2,temp3,temp4 AS INTEGER
+  PROMPT "Enter the number :			" AND STORE IN number
+SUB say_is_wellorder (number)
+		CALCULATE temp1=number%10
+CALCULATE temp2=number/10
+CALCULATE temp3=temp2%10
+CALCULATE temp4=temp2/10
+IF ( temp1>temp3 AND temp1>temp4)
+			IF(temp3>temp4)
+				Return 1
+ELSE 
+Return 0
+		ELSE
+Print “Enter the number in integer type “
+END IF
+END SUB
+END
+
+
+/*````````````````````````````````````````````````````````````````````
+
+	AUTHOR: RAGHU SHANKAR KONGARA 142460
+	FILE NAME: wellOrderedNumber
+	CREATED ON: 2018/01/10
+	DESCRIPTION: The following code takes a number from user and says if it is a well ordered number or not. 
+	
+	
+`````````````````````````````````````````````````````````````````````````````*/
+BEGIN
+	DECLARE input_number AS INTEGER;
+	DECLARE result;
+
+	PROMPT "Give an integer as input";
+	READ input_number;
+
+	result = well_orderd(input_number);
+
+		IF result IS 1 THEN
+			DISPLAY " Given number is well ordered";
+
+		ELSE IF result IS 0 THEN
+			DISPLAY " Given number is not well ordered";
+	
+		ELSE 
+			DISPLAY "Invalid input";
+	
+		END IF
+END
+
+SUB well_orderd(input_number AS INTEGER)
+
+	IF input_number IS NOT INTEGER
+		RETURN ERROR;
+		END SUB;
+	END IF;
+	
+
+	DECLARE temp, counter AS INTEGER;
+	DECLARE holder1, holder2, divisor TO AS INTEGER;
+	INTIALIZE temp TO input_number;
+	INTIALIZE counter TO 0;
+	INTIALIZE divisor TO 1;
+	
+	/* Finding the number of digits in given number*/
+	LOOP UNTIL temp NOT 0
+		temp = temp / 10;
+		counter = counter+ 1;
+	END LOOP
+	
+		temp = input_number;
+	/* comparing individual digits*/
+	
+	LOOP UNTIL counter-1 NOT 0
+		holder1 = temp %10;
+				
+		tem = temp/10;
+		
+		holder2 = temp %10;
+		
+		IF holder1 < holder2
+		
+			RETURN 1; 
+			EXIT LOOP;
+		
+		ELSE
+			counter = counter-1;
+		END IF;
+		END LOOP;
+		
+		RETURN 0;
+END SUB;
+	
+		
+		
+			
+		
+		
+		
+
+
+
+/*````````````````````````````````````````````````````````````````````
+
+	AUTHOR: RAGHU SHANKAR KONGARA 142460
+	FILE NAME: finding_state
+	CREATED ON: 2018/01/10
+	DESCRIPTION: The following code takes city name from the employee and prints the state to which that city belongs to
+	
+	
+`````````````````````````````````````````````````````````````````````````````*/
+
+BEGIN
+	DECLARE emp_no AS INTEGER;
+	DECLARE salary AS INTEGER;
+	DECLARE emp_name AS STRING
+	DECLARE location AS STRING;
+	PROMPT "Enter the employee no: " AND STORE IN emp_no;
+	PROMPT "Enter the employee name: " AND STORE IN emp_name;
+	PROMPT "Enter the employee salary: " AND STORE IN salary;
+	PROMPT "Enter the current location: " AND STORE IN location;
+	
+	state(location);
+END;
+
+
+
+SUB state(location as STRING)
+
+	SWITCH(location)
+	BEGIN SWITCH
+	
+	CASE : location IS "Chennai" THEN
+		PROMPT "The state of employee is: TamilNadu";
+		BREAK;
+	CASE: location IS "Mumbai" OR "Pune" THEN
+		PROMPT "The state of employee is: Maharashtra";
+		BREAK;
+	CASE: location IS "Bangalore" THEN
+		PROMPT "The state of employee is: Karnataka" ;
+		BREAK;
+	DEFAULT:
+	/* Exception*/
+		PROMPT "Enter a valid location of the employee" ;  
+		BREAK;
+	END IF;
+END SUB
+
+
+
+
+
+
+
+
+
+
+/*````````````````````````````````````````````````````````````````````
+
+	AUTHOR: RAGHU SHANKAR KONGARA 142460
+	FILE NAME: ATM
+	CREATED ON: 2018/01/10
+	DESCRIPTION: The following code takes reads a/c, customer name, amount to be withdrawn and amount present in the
+				 and checks if the customer can withdraw the money or not
+	
+	
+`````````````````````````````````````````````````````````````````````````````*/
+BEGIN
+	DECLARE account_no AS INTEGER;
+	DECLARE current_balance AS INTEGER;
+	DECLARE customer_name AS CHARACTER;
+	DECLARE withdrawal_amount AS INTEGER;
+	PROMPT "Enter the account number: " AND STORE IN account_no;
+	PROMPT "Enter the customer name: " AND STORE IN customer_name;
+	PROMPT "Enter the current balance: " AND STORE IN current_balance;
+	PROMPT "Enter the withdrawal amount: " AND STORE IN withdrawal_amount;
+	
+	/* Exceptions*/
+	
+	IF (account_no NOT FOUND OR  customer_name NOT FOUND) THEN
+		PROMPT "Please check the data that you have entered ");
+	ELSE IF (current_balance IS 0 OR current_balance< 0 or withdrawal_amount < 0 OR withdrawal_amount = 0) THEN
+		PROMPT "Entered Invalid amount");
+		
+	/* Valid input*/
+	ELSE
+		decision();
+	END IF;
+		
+END
+
+SUB decision()
+	IF(current_balance > withdrawal_amount) THEN 
+		PROMPT "The customer is eligible for successful transaction ";
+	ELSE
+		PROMPT "Not enough amount in the account for withdrawal";
+	END IF;
+END SUB
+
+
+
+
+/*````````````````````````````````````````````````````````````````````
+
+	AUTHOR: RAGHU SHANKAR KONGARA 142460
+	FILE NAME: BILL
+	CREATED ON: 2018/01/10
+	DESCRIPTION: The following code takes reads a/c, customer name, amount to be withdrawn and amount present in the
+				 and checks if the customer can withdraw the money or not
+	
+	
+`````````````````````````````````````````````````````````````````````````````*/
+BEGIN
+	DECLARE customer_number AS INTEGER;
+	DECLARE consumer_name AS STRING;
+	DECLARE number_of_units,total_charge AS FLOAT;
+	PROMPT "Customer number :			" AND STORE IN customer_number;
+	PROMPT "Customer  Name :			" AND STORE IN customer_name;
+	PROMPT "Number of units :			" AND STORE IN number_of_units;
+	
+END
+
+SUB electric_charges(number_of_units)
+		IF ( number_of_units >0 AND number_of_units<100)
+			CALCULATE total_charge  = number_of_units *02.96;
+			Print "Total electricity charges : "+total_charge;
+		ELSE IF (number_of_units>100)
+			CALCULATE total_charge   =number_of_units*05.56;
+			Print "Total electricity charges : "+total_charge;
+		ELSE
+			Print "Enter the correct value for Number of units ";
+		END IF
+
+	PRINT "Customer Number      		: "+customer_number;
+	PRINT "Customer Name    		: "+customer_name;
+	PRINT "Number Of Units		: "+number_of_units;
+	PRINT "Total Electricity Charges	: "+total_charge;
+	END SUB	
+
+
+/*````````````````````````````````````````````````````````````````````
+
+	AUTHOR: RAGHU SHANKAR KONGARA 142460
+	FILE NAME: BILL2
+	CREATED ON: 2018/01/10
+	DESCRIPTION: The following code repair bills
+	
+`````````````````````````````````````````````````````````````````````````````*/
+BEGIN
+DECLARE  cost_of_vehicle,cost_of_service  AS INTEGER
+	DECLARE type_of_vehicle,type_of_service AS STRING
+	DECLARE cost_of_service  AS FLOAT
+PROMPT "Type of  Service :	" AND STORE IN type_of_service
+	PROMPT "Type of  Vehicle :	" AND STORE IN type_of_vehicle
+	PROMPT "Cost of  Vehicle  :	" AND STORE IN cost_of_vehicle
+SUB cost_of_service(type_of_vehicle, cost_of_vehicle, type_of_service)
+		IF (type_of_vehicle=’All’ AND type_of_service=’F’)  //* F means Free Service *//
+			cost_of_service  = 200
+			Print "Cost of service : "+cost_of_service
+		ELSE IF (type_of_vehicle=’Hatchback’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+			CALCULATE cost_of_service  = cost_of_vehicle - (0.15*cost_of_vehicle)
+			Print "Cost of service :" +cost_of_service
+		ELSE IF (type_of_vehicle=’Small Cars’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+			CALCULATE cost_of_service  = cost_of_vehicle - (0.10*cost_of_vehicle)
+			Print "Cost of service : "+cost_of_service
+		ELSE IF (type_of_vehicle=’Sedan’ AND type_of_service=’BR’)  //* BR means Body Repair *//
+			CALCULATE cost_of_service  = cost_of_vehicle - (0.18*cost_of_vehicle)
+			Print "Cost of service : "+cost_of_service
+		ELSE
+			Print “ "Enter the correct details "
+		END IF
+	END SUB
+PRINT "Type of  Service :	" +type_of_service
+	PRINT "Type of  Vehicle :	" +type_of_vehicle
+	PRINT ""Cost of  Vehicle  :	" +cost_of_vehicle
+	PRINT "Cost of  Service :	" +cost_of_service
+END
